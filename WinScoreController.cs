@@ -14,7 +14,7 @@ public class WinScoreController : MonoBehaviour
         float currentScore = PlayerPrefs.GetFloat("currentScore");
         float highScore = PlayerPrefs.GetFloat("highScore");
 
-        if(currentScore > highScore)
+        if(currentScore < highScore || highScore == 0)
         {
             currentScoreGO.GetComponent<TextMeshProUGUI>().text = "Score: " + currentScore.ToString("#0.00") + " New Record!";
         } else

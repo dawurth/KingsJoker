@@ -61,7 +61,7 @@ public class Timer : MonoBehaviour
         return roundLength - targetTime;
     }
 
-    public float playerScore() { 
+    public float playerScore() {
         return totalScore; 
     }
 }

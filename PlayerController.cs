@@ -75,8 +75,8 @@ public class PlayerController : MonoBehaviour
         }
         // if the player is at a workbench with 5 items and presses p the player should perform
         perform();
-
-        
+ 
+    
         // check if the player has reached 100 or higher and win the game.
         if (LaughBarGO.GetComponent<LaughBarController>().laughBar.value >= 100 && !gameWon)
         {
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
             PlayerPrefs.Save();
 
             if (PlayerPrefs.HasKey("highScore")) {
-                if (newScore < PlayerPrefs.GetFloat("highScore"))
+                if (newScore < PlayerPrefs.GetFloat("highScore") || PlayerPrefs.GetFloat("highScore") == 0)
                 {
                     highScore = newScore;
                     PlayerPrefs.SetFloat("highScore", highScore);
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (newScore < highScore)
+                if (newScore < highScore || highScore == 0)
                 {
                     highScore = newScore;
                     PlayerPrefs.SetFloat("highScore", highScore);
