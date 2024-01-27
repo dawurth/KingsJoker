@@ -9,8 +9,9 @@ public class ItemManager
 
     public ItemManager() { 
         items = new List<Item>();
-        assignMoodRatings();
+
         populateListWithInitialValues();
+        assignMoodRatings();
 
     }
 
@@ -38,7 +39,7 @@ public class ItemManager
         // for the 10 items, we want 5 items that give max positive results 5
         // 3 that given low results 2
         // 2 that given -5 results
-        int[] availableOptions = { 3, 3, 3, 3, 3, 0, 0, 0, -5, -5 };
+        int[] availableOptions = { 7, 7, 5, 5, 5, 3, 3, 1, -5, -5 };
 
         // for teh 10 items in the list, assign the mood rating from the availableOptions
         foreach (Item item in items)
@@ -47,6 +48,7 @@ public class ItemManager
             item.moodModifier = availableOptions[index];
             availableOptions[index] = availableOptions[availableOptions.Length - 1];
             System.Array.Resize(ref availableOptions, availableOptions.Length - 1);
+            Debug.Log(item.prefab + " " + item.moodModifier);
         }
 
 

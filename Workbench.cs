@@ -49,6 +49,7 @@ public class Workbench
         foreach (Item item in items)
         {
             mood += item.moodModifier;
+            Debug.Log(item.moodModifier);
         }
         return mood;
     }

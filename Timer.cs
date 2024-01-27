@@ -10,6 +10,7 @@ public class Timer : MonoBehaviour
     public float targetTime = 0f;
     public bool timerRunning = false;
     public GameObject timerUI;
+    public float totalScore = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -49,11 +50,18 @@ public class Timer : MonoBehaviour
     public void stopTimer()
     {
         timerRunning = false;
+        float taken = timeTaken();
+        Debug.Log("Time Taken:" + taken + " Total Score: " + totalScore);
+        totalScore += taken;
     }
 
     internal float timeTaken()
     {
         // returns the diffrent between time left and round length
         return roundLength - targetTime;
+    }
+
+    public float playerScore() { 
+        return totalScore; 
     }
 }

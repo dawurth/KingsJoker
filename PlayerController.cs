@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     GameObject Place;
     GameObject Perform;
     GameObject Instructions;
+    public GameObject holdingGO;
     public GameObject WorkBenchGO;
     public GameObject LaughBarGO;
     public GameObject TimerGO;
@@ -36,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public Sprite soap;
     public Sprite balloonanimal;
 
-    
+    bool gameWon = false;
     GameObject collidingObject;
     // Start is called before the first frame update
     void Start()
@@ -68,13 +70,37 @@ public class PlayerController : MonoBehaviour
 
         
         // check if the player has reached 100 or higher and win the game.
-        if (LaughBarGO.GetComponent<LaughBarController>().laughBar.value >= 100)
+        if (LaughBarGO.GetComponent<LaughBarController>().laughBar.value >= 100 && !gameWon)
         {
+            gameWon = true;
             // Win the game
             Debug.Log("You win");
             Timer time = TimerGO.GetComponent<Timer>();
             time.stopTimer();
-            
+            float highScore = 0;
+
+            float newScore = time.playerScore();
+            PlayerPrefs.SetFloat("currentScore", newScore);
+            PlayerPrefs.Save();
+
+            if (PlayerPrefs.HasKey("highScore")) {
+                if (newScore > PlayerPrefs.GetFloat("highScore"))
+                {
+                    highScore = newScore;
+                    PlayerPrefs.SetFloat("highScore", highScore);
+                    PlayerPrefs.Save();
+                }
+            }
+            else
+            {
+                if (newScore > highScore)
+                {
+                    highScore = newScore;
+                    PlayerPrefs.SetFloat("highScore", highScore);
+                    PlayerPrefs.Save();
+                }
+            }
+
             StartCoroutine(TransferToWinScreen());
         }
     }
@@ -120,6 +146,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator TransferToWinScreen()
     {
+
         yield return new WaitForSeconds(5);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Congrats");
     }
@@ -172,6 +199,7 @@ public class PlayerController : MonoBehaviour
             Item heldItem = player.getItem();
             bench.addItem(heldItem);
             player.removeHeldItem();
+            holdingGO.SetActive(false);
             // work out which image is next and update the sprite and set it active
             int itemCount = bench.getItemCount();
             Debug.Log("Item count: " + itemCount);
@@ -231,6 +259,42 @@ public class PlayerController : MonoBehaviour
             player.addItem(item);
             collidingObject.SetActive(false);
             collidingObject = null;
+
+            holdingGO.SetActive(true);
+            holdingGO.GetComponentInChildren<TextMeshProUGUI>().text = item.name;
+            switch (item.prefab)
+            {
+                case "rabbit":
+                    holdingGO.GetComponentInChildren<Image>().sprite = rabbit;
+                    break;
+                case "banana":
+                    holdingGO.GetComponentInChildren<Image>().sprite = banana;
+                    break;
+                case "flower":
+                    holdingGO.GetComponentInChildren<Image>().sprite = flower;
+                    break;
+                case "rubberduck":
+                    holdingGO.GetComponentInChildren<Image>().sprite = rubberduck;
+                    break;
+                case "feather":
+                    holdingGO.GetComponentInChildren<Image>().sprite = feather;
+                    break;
+                case "fakebeard":
+                    holdingGO.GetComponentInChildren<Image>().sprite = fakebeard;
+                    break;
+                case "whoopee":
+                    holdingGO.GetComponentInChildren<Image>().sprite = whoopee;
+                    break;
+                case "wig":
+                    holdingGO.GetComponentInChildren<Image>().sprite = wig;
+                    break;
+                case "soap":
+                    holdingGO.GetComponentInChildren<Image>().sprite = soap;
+                    break;
+                case "balloonanimal":
+                    holdingGO.GetComponentInChildren<Image>().sprite = balloonanimal;
+                    break;
+            }
         }
     }
 
