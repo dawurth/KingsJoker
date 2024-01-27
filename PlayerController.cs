@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public GameObject WorkBenchGO;
     public GameObject LaughBarGO;
     public GameObject TimerGO;
+    public GameObject KingGO;
 
 
     // Temp sprites until I can get it loading correctly.
@@ -37,6 +38,12 @@ public class PlayerController : MonoBehaviour
     public Sprite wig;
     public Sprite soap;
     public Sprite balloonanimal;
+
+    public Sprite king; // 5-10
+    public Sprite kingUpset; // 0-5
+    public Sprite kingAngry; // <0
+    public Sprite kingHappy; // 10-15
+    public Sprite kingLove; // 15-20
 
     bool gameWon = false;
     GameObject collidingObject;
@@ -59,12 +66,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // move the player in a direction.
-        movePlayer();
-        //if the player presses e, if there is a colliding object it should be picked up.
-        getItem();
-        // If the player presses e at a workbench while using the item it should be placed on the workbench
-        useItem();
+        Timer time = TimerGO.GetComponent<Timer>();
+
+        if (time.timerRunning)
+        {
+            // move the player in a direction.
+            movePlayer();
+            //if the player presses e, if there is a colliding object it should be picked up.
+            getItem();
+            // If the player presses e at a workbench while using the item it should be placed on the workbench
+            useItem();
+        }
         // if the player is at a workbench with 5 items and presses p the player should perform
         perform();
 
@@ -75,7 +87,7 @@ public class PlayerController : MonoBehaviour
             gameWon = true;
             // Win the game
             Debug.Log("You win");
-            Timer time = TimerGO.GetComponent<Timer>();
+            
             time.stopTimer();
             float highScore = 0;
 
@@ -165,6 +177,28 @@ public class PlayerController : MonoBehaviour
             int moodResult = bench.calculateMood() + pointsLoss;
 
             Debug.Log("King's Mood Changed: " + moodResult);
+            // Update the king's protrait based on the number of points
+            if (moodResult >= 15)
+            {
+                KingGO.GetComponent<Image>().sprite = kingLove;
+            }
+            else if (moodResult >= 10)
+            {
+                KingGO.GetComponent<Image>().sprite = kingHappy;
+            }
+            else if (moodResult >= 5)
+            {
+                KingGO.GetComponent<Image>().sprite = king;
+            }
+            else if (moodResult >= 0)
+            {
+                KingGO.GetComponent<Image>().sprite = kingUpset;
+            }
+            else
+            {
+                KingGO.GetComponent<Image>().sprite = kingAngry;
+            }
+
             LaughBarGO.GetComponent<LaughBarController>().setMood(moodResult);
 
             GameObject placedItem = WorkBenchGO.transform.Find("Item1").gameObject;
@@ -324,20 +358,27 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "Workbench") {
+        if (collidingObject != null)
+        {
+            return;
+        }
+        if(collision.name == "Workbench") {
             if(player.hasItem()) {
                 Debug.Log("Player has item");
                 Place.SetActive(true);
+                collidingObject = collision.gameObject;
             } else if(bench.hasAllItems()) {
                 Debug.Log("Bence has allitems" + bench.hasAllItems());
                 Perform.SetActive(true);
+                collidingObject = collision.gameObject;
             }
 
         } else {
             Pickup.SetActive(true);
+            collidingObject = collision.gameObject;
         }
 
-        collidingObject = collision.gameObject;
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
