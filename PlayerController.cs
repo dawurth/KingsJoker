@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
             PlayerPrefs.Save();
 
             if (PlayerPrefs.HasKey("highScore")) {
-                if (newScore > PlayerPrefs.GetFloat("highScore"))
+                if (newScore < PlayerPrefs.GetFloat("highScore"))
                 {
                     highScore = newScore;
                     PlayerPrefs.SetFloat("highScore", highScore);
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (newScore > highScore)
+                if (newScore < highScore)
                 {
                     highScore = newScore;
                     PlayerPrefs.SetFloat("highScore", highScore);
