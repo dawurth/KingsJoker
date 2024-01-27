@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     GameObject Pickup;
     GameObject Place;
     GameObject Perform;
+    GameObject Instructions;
     public GameObject WorkBenchGO;
     public GameObject LaughBarGO;
     public GameObject TimerGO;
@@ -47,6 +49,8 @@ public class PlayerController : MonoBehaviour
         Place.SetActive(false);
         Perform = GameObject.Find("PerformAct");
         Perform.SetActive(false);
+        Instructions = GameObject.Find("Instructions");
+        Instructions.SetActive(true);
         itemManager = new ItemManager();
     }
 
@@ -62,6 +66,7 @@ public class PlayerController : MonoBehaviour
         // if the player is at a workbench with 5 items and presses p the player should perform
         perform();
 
+        
         // check if the player has reached 100 or higher and win the game.
         if (LaughBarGO.GetComponent<LaughBarController>().laughBar.value >= 100)
         {
@@ -74,6 +79,45 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator FinishRound()
+    {
+        yield return new WaitForSeconds(5);
+        bench.clearItems();
+        // clear all items from the WorkBenchGo as well
+        GameObject placedItem = WorkBenchGO.transform.Find("Item1").gameObject;
+        placedItem.GetComponent<SpriteRenderer>().enabled = false;
+        placedItem.GetComponent<GoRotation>().enabled = false;
+
+        placedItem = WorkBenchGO.transform.Find("Item2").gameObject;
+        placedItem.GetComponent<SpriteRenderer>().enabled = false;
+        placedItem.GetComponent<GoRotation>().enabled = false;
+
+
+        placedItem = WorkBenchGO.transform.Find("Item3").gameObject;
+        placedItem.GetComponent<SpriteRenderer>().enabled = false;
+        placedItem.GetComponent<GoRotation>().enabled = false;
+
+
+        placedItem = WorkBenchGO.transform.Find("Item4").gameObject;
+        placedItem.GetComponent<SpriteRenderer>().enabled = false;
+        placedItem.GetComponent<GoRotation>().enabled = false;
+
+
+        placedItem = WorkBenchGO.transform.Find("Item5").gameObject;
+        placedItem.GetComponent<SpriteRenderer>().enabled = false;
+        placedItem.GetComponent<GoRotation>().enabled = false;
+
+        // after the performance we will need to respawn all the items.
+        // how do we let the world controller know to respawn
+        GameObject worldController = GameObject.Find("WorldController");
+        worldController.GetComponent<WorldController>().spawnItems();
+
+        // reset the timer
+        Timer time = TimerGO.GetComponent<Timer>();
+        time.startTimer();
+
+    }
+
     IEnumerator TransferToWinScreen()
     {
         yield return new WaitForSeconds(5);
@@ -84,52 +128,47 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P) && collidingObject != null && collidingObject.name == "Workbench" && bench.hasAllItems())
         {
-            Debug.Log("Performing");
             Timer time = TimerGO.GetComponent<Timer>();
             time.stopTimer();
-            Debug.Log(time.timeTaken());
-            int pointsLoss = -(int)(time.timeTaken()/10);
+
+            int pointsLoss = -(int)(time.timeTaken() / 10);
             // Id love if I could get all 5 items to circle around the player and then disappear
             // TODO All items circle the player
             // based on the items selected and if the king likes them, a final total will be added to the bar, once it hits 100 you win, if it hits 0 you die
-            int moodResult = bench.calculateMood()+pointsLoss;
+            int moodResult = bench.calculateMood() + pointsLoss;
 
             Debug.Log("King's Mood Changed: " + moodResult);
             LaughBarGO.GetComponent<LaughBarController>().setMood(moodResult);
 
-            bench.clearItems();
-            // clear all items from the WorkBenchGo as well
             GameObject placedItem = WorkBenchGO.transform.Find("Item1").gameObject;
-            placedItem.GetComponent<SpriteRenderer>().enabled = false;
+            placedItem.GetComponent<GoRotation>().enabled = true;
 
             placedItem = WorkBenchGO.transform.Find("Item2").gameObject;
-            placedItem.GetComponent<SpriteRenderer>().enabled = false;
+            placedItem.GetComponent<GoRotation>().enabled = true;
 
             placedItem = WorkBenchGO.transform.Find("Item3").gameObject;
-            placedItem.GetComponent<SpriteRenderer>().enabled = false;
+            placedItem.GetComponent<GoRotation>().enabled = true;
 
             placedItem = WorkBenchGO.transform.Find("Item4").gameObject;
-            placedItem.GetComponent<SpriteRenderer>().enabled = false;
+            placedItem.GetComponent<GoRotation>().enabled = true;
 
             placedItem = WorkBenchGO.transform.Find("Item5").gameObject;
-            placedItem.GetComponent<SpriteRenderer>().enabled = false;
-            // after the performance we will need to respawn all the items.
-            // how do we let the world controller know to respawn
-            GameObject worldController = GameObject.Find("WorldController");
-            worldController.GetComponent<WorldController>().spawnItems();
+            placedItem.GetComponent<GoRotation>().enabled = true;
 
-            // Reset the timer for a new round
-            time.startTimer();
-
-           
+            StartCoroutine(FinishRound());
         }
     }
+
+  
     // If the player is able to interact with a bench the item can be used at, if the key is pressed remove the item from the player, and add to the workbench
     // if the workbench has all items then the player will get an option to preform
     void useItem()
     {
         if (Input.GetKeyDown(KeyCode.R) && collidingObject != null && player.hasItem() && collidingObject.name == "Workbench")
         {   
+            if(Instructions.activeSelf) {
+                Instructions.SetActive(false);
+            }
             Item heldItem = player.getItem();
             bench.addItem(heldItem);
             player.removeHeldItem();
