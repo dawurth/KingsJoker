@@ -293,7 +293,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -407,7 +407,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1d2b2585cc6bdbf45b94556e2ed90839, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 77c239b54d066bc4c967327cb4c9213b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -427,8 +427,8 @@ Transform:
   m_GameObject: {fileID: 675623051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.14, y: -2.24, z: 0}
-  m_LocalScale: {x: 1.9734453, y: 1.8851198, z: 1}
+  m_LocalPosition: {x: -0.15, y: -0.69, z: 0}
+  m_LocalScale: {x: 2.678042, y: 2.2823062, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -470,7 +470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 137.35, y: -123}
+  m_AnchoredPosition: {x: 137.35, y: -46.54}
   m_SizeDelta: {x: 274.69, y: 93.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1150737607
@@ -849,8 +849,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -9.179993}
-  m_SizeDelta: {x: 0, y: -18.36}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1502668132
 MonoBehaviour:
@@ -935,7 +935,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.28670508, y: -5.7342644, z: 1.1469269, w: 0}
+  m_margin: {x: 0.28670508, y: 1.780319, z: 1.1469269, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1d2b2585cc6bdbf45b94556e2ed90839
+guid: d2243db81a1b5bb4dbf0aacff37c4e75
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: the_jester 1_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 0
+        width: 231
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d2268645d3500e4098285ffc719e348
+      internalID: 1908628392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: the_jester 1_1
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 0
+        width: 215
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 073f9a1755823e54887b4efcd3a954e8
+      internalID: -2138631128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +161,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      the_jester 1_0: 1908628392
+      the_jester 1_1: -2138631128
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
