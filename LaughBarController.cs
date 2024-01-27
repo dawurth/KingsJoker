@@ -29,15 +29,18 @@ public class LaughBarController : MonoBehaviour
 
     public void setMood(float mood)
     {
-        targetLaugh = mood;
+        laughBar.value += mood;
+        //targetLaugh = targetLaugh+mood;
 
-        if (!lerpingMood)
-            StartCoroutine(LerpMood());
+        //if (!lerpingMood)
+        //    StartCoroutine(LerpMood);
     }
 
-    private IEnumerator LerpMood()
+    /*
+    private IEnumerator LerpMood
     {
-        float speed = 10f;
+
+        float speed = 1f;
         float startLaugh = laughBar.value;
 
         lerpingMood = true;
@@ -48,7 +51,6 @@ public class LaughBarController : MonoBehaviour
             laughBar.value = Mathf.Lerp(startLaugh, targetLaugh, timeScale);
         }
         lerpingMood = false;
-
-        yield return null;
-    }
+        
+    }*/
 }

@@ -8,7 +8,7 @@ public class Player
 {
     // the players current position
     public float x, y;
-    public float speed = 0.10f;
+    public float speed = 1f;
 
     // Player can only hold a single item
     Item item;

@@ -1133,6 +1133,7 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   WorkBenchGO: {fileID: 608208444}
   LaughBarGO: {fileID: 1305896753}
+  TimerGO: {fileID: 1172318949}
   banana: {fileID: 21300000, guid: 9ad9fbb24f54f6548b39f1783592551e, type: 3}
   feather: {fileID: 21300000, guid: 89469c78841cd4b4aadd3d8d1748b613, type: 3}
   flower: {fileID: 21300000, guid: 081bdafd1d73f0b4a9925578c93c021e, type: 3}

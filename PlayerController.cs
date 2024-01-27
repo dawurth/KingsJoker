@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     GameObject Perform;
     public GameObject WorkBenchGO;
     public GameObject LaughBarGO;
+    public GameObject TimerGO;
 
 
     // Temp sprites until I can get it loading correctly.
@@ -52,34 +53,48 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // move the player in a direction.
         movePlayer();
-
-        // set player object position to same as player position
-        if(this.transform.position.x != player.x || this.transform.position.y != player.y) {
-            this.transform.position = new Vector3(player.x, player.y, 0);
-            //camera position follows the player
-            cam.transform.position = new Vector3(player.x, player.y, -10);
-            // call function setMood in LaughBarController
-            
-        }
-
         //if the player presses e, if there is a colliding object it should be picked up.
         getItem();
         // If the player presses e at a workbench while using the item it should be placed on the workbench
         useItem();
         // if the player is at a workbench with 5 items and presses p the player should perform
         perform();
+
+        // check if the player has reached 100 or higher and win the game.
+        if (LaughBarGO.GetComponent<LaughBarController>().laughBar.value >= 100)
+        {
+            // Win the game
+            Debug.Log("You win");
+            Timer time = TimerGO.GetComponent<Timer>();
+            time.stopTimer();
+            
+            StartCoroutine(TransferToWinScreen());
+        }
+    }
+
+    IEnumerator TransferToWinScreen()
+    {
+        yield return new WaitForSeconds(5);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Congrats");
     }
 
     void perform()
     {
-        if (Input.GetKeyDown(KeyCode.P) || collidingObject != null && collidingObject.name == "Workbench" && bench.hasAllItems())
+        if (Input.GetKeyDown(KeyCode.P) && collidingObject != null && collidingObject.name == "Workbench" && bench.hasAllItems())
         {
             Debug.Log("Performing");
+            Timer time = TimerGO.GetComponent<Timer>();
+            time.stopTimer();
+            Debug.Log(time.timeTaken());
+            int pointsLoss = -(int)(time.timeTaken()/10);
             // Id love if I could get all 5 items to circle around the player and then disappear
             // TODO All items circle the player
             // based on the items selected and if the king likes them, a final total will be added to the bar, once it hits 100 you win, if it hits 0 you die
-            int moodResult = bench.calculateMood();
+            int moodResult = bench.calculateMood()+pointsLoss;
+
+            Debug.Log("King's Mood Changed: " + moodResult);
             LaughBarGO.GetComponent<LaughBarController>().setMood(moodResult);
 
             bench.clearItems();
@@ -102,6 +117,9 @@ public class PlayerController : MonoBehaviour
             // how do we let the world controller know to respawn
             GameObject worldController = GameObject.Find("WorldController");
             worldController.GetComponent<WorldController>().spawnItems();
+
+            // Reset the timer for a new round
+            time.startTimer();
 
            
         }
@@ -179,25 +197,26 @@ public class PlayerController : MonoBehaviour
 
     void movePlayer()
     {
-        // move player object based on arrow keys
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            player.y += player.speed;
+            transform.position += new Vector3(player.speed * Time.deltaTime, 0f, 0f);
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            player.y -= player.speed;
+            transform.position -= new Vector3(player.speed * Time.deltaTime, 0f, 0f);
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            player.x -= player.speed;
+            transform.position += new Vector3(0f, player.speed * Time.deltaTime, 0f);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            player.x += player.speed;
+            transform.position -= new Vector3(0f, player.speed * Time.deltaTime, 0f);
         }
-        // set a player min/max x-y and dont let the values go beyond them
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

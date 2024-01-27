@@ -50,4 +50,10 @@ public class Timer : MonoBehaviour
     {
         timerRunning = false;
     }
+
+    internal float timeTaken()
+    {
+        // returns the diffrent between time left and round length
+        return roundLength - targetTime;
+    }
 }
