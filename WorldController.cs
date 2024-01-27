@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class WorldController : MonoBehaviour
 {
@@ -133,7 +131,9 @@ public class WorldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape)) { 
+            Application.Quit();
+        }
     }
 
     internal void clearItems()
