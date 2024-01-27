@@ -94,13 +94,26 @@ public class WorldController : MonoBehaviour
         if (y == 1)
         {
             // Generate a random x coordinate between -8 and -3 or between 3 and 8
-            x = Random.Range(-8, 3);
+            if (Random.Range(1, 3) == 1)
+            {
+                x = Random.Range(-8, -2);
+            } else
+            {
+                x = Random.Range(4, 8);
+            }
             
         }
         else if (y == 2)
         {
             // Generate a random x coordinate between -8 and 8
-            x = Random.Range(3, 8);
+            
+            if(Random.Range(1,3) == 1)
+            {
+                x = Random.Range(4, 8);
+            } else
+            {
+                x = Random.Range(-8, -3);
+            }
         } else
         {
             x = Random.Range(-8, 8);
